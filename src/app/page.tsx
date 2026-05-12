@@ -1,6 +1,5 @@
 import { supabase } from "@/lib/supabase/client";
 import { Room } from "@/lib/types";
-import Link from "next/link";
 import { Sparkles, Waves, Utensils, TreePine } from "lucide-react";
 
 async function getRooms(): Promise<Room[]> {
@@ -173,12 +172,12 @@ export default async function HomePage() {
                       {room.base_price?.toLocaleString()}원~
                     </span>
                   </div>
-                  <Link 
-                    href="/rooms"
-                    className="px-4 py-2 rounded-lg bg-[#1B3525] text-white text-sm hover:bg-[#D4AF37] transition-colors inline-block"
+                  <a 
+                    href={`/rooms/${room.id}`}
+                    className="px-4 py-2 rounded-lg bg-[#1B3525] text-white text-xs font-semibold uppercase tracking-wider hover:bg-[#D4AF37] transition-colors inline-block"
                   >
                     예약하기
-                  </Link>
+                  </a>
                 </div>
               </div>
             </div>
