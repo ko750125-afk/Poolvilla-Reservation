@@ -3,7 +3,6 @@ import { Room, Reservation } from "@/lib/types";
 import { ReservationWidget } from "@/components/reservation/ReservationWidget";
 import { notFound } from "next/navigation";
 import { Waves, Utensils, TreePine, Users, Sparkles, ChevronLeft } from "lucide-react";
-import Link from "next/link";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -124,12 +123,12 @@ export default async function RoomDetailPage({ params }: Props) {
     <main className="flex-1 pt-24 pb-20 bg-[#FBF9F4]">
       {/* 상단 툴바 */}
       <div className="max-w-7xl mx-auto px-4 mb-6">
-        <Link 
+        <a 
           href="/rooms" 
           className="inline-flex items-center gap-1 text-xs font-semibold text-gray-500 hover:text-[#1B3525] transition-colors"
         >
           <ChevronLeft className="w-4 h-4" /> 다른 객실 목록으로 돌아가기
-        </Link>
+        </a>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -175,39 +174,28 @@ export default async function RoomDetailPage({ params }: Props) {
             )}
           </div>
 
-          {/* 객실 개요 및 스펙 */}
+          {/* 객실 개요 및 스펙 (DRY 리팩토링 적용) */}
           <div className="bg-white p-8 rounded-2xl border border-[#1B3525]/5 shadow-sm space-y-6">
             <h2 className="text-2xl font-serif text-[#1B3525] border-b border-gray-100 pb-4">
               객실 개요
             </h2>
             
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-              <div className="p-4 rounded-xl bg-gray-50/50">
-                <Users className="w-5 h-5 text-[#D4AF37] mx-auto mb-1" />
-                <span className="text-[11px] text-gray-400 block">기준 인원</span>
-                <span className="text-sm font-bold text-[#1B3525]">{room.max_guests}인</span>
-              </div>
-              <div className="p-4 rounded-xl bg-gray-50/50">
-                <Waves className="w-5 h-5 text-[#D4AF37] mx-auto mb-1" />
-                <span className="text-[11px] text-gray-400 block">개별수영장</span>
-                <span className="text-sm font-bold text-[#1B3525]">
-                  {room.features?.pool ? "포함" : "미포함"}
-                </span>
-              </div>
-              <div className="p-4 rounded-xl bg-gray-50/50">
-                <Utensils className="w-5 h-5 text-[#D4AF37] mx-auto mb-1" />
-                <span className="text-[11px] text-gray-400 block">개별바베큐</span>
-                <span className="text-sm font-bold text-[#1B3525]">
-                  {room.features?.bbq ? "가능" : "불가"}
-                </span>
-              </div>
-              <div className="p-4 rounded-xl bg-gray-50/50">
-                <TreePine className="w-5 h-5 text-[#D4AF37] mx-auto mb-1" />
-                <span className="text-[11px] text-gray-400 block">전용정원</span>
-                <span className="text-sm font-bold text-[#1B3525]">
-                  {room.features?.garden ? "보유" : "공용정원"}
-                </span>
-              </div>
+              {[
+                { icon: Users, label: "기준 인원", value: `${room.max_guests}인` },
+                { icon: Waves, label: "개별수영장", value: room.features?.pool ? "포함" : "미포함" },
+                { icon: Utensils, label: "개별바베큐", value: room.features?.bbq ? "가능" : "불가" },
+                { icon: TreePine, label: "전용정원", value: room.features?.garden ? "보유" : "공용정원" },
+              ].map((spec, idx) => {
+                const Icon = spec.icon;
+                return (
+                  <div key={idx} className="p-4 rounded-xl bg-gray-50/50">
+                    <Icon className="w-5 h-5 text-[#D4AF37] mx-auto mb-1" />
+                    <span className="text-[11px] text-gray-400 block">{spec.label}</span>
+                    <span className="text-sm font-bold text-[#1B3525]">{spec.value}</span>
+                  </div>
+                );
+              })}
             </div>
 
             <div className="pt-2">
