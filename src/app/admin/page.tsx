@@ -42,8 +42,30 @@ export default function AdminDashboardPage() {
       console.warn("Admin data fetch bypassed, loading premium demo data:", err);
       // 서버 타임아웃 차단 후 최고급 시연용 더미 데이터 즉시 삽입
       setRooms({
-        "fallback-1": { id: "fallback-1", name: "1층 산책(풀빌라)", type: "poolvilla", base_price: 350000, weekend_price: 450000, peak_price: 550000, max_guests: 4 },
-        "fallback-2": { id: "fallback-2", name: "2층 하늘(풀빌라)", type: "poolvilla", base_price: 380000, weekend_price: 480000, peak_price: 580000, max_guests: 4 }
+        "fallback-1": { 
+          id: "fallback-1", 
+          name: "1층 산책(풀빌라)", 
+          type: "poolvilla", 
+          base_price: 350000, 
+          weekend_price: 450000, 
+          peak_price: 550000, 
+          max_guests: 4,
+          description: "프라이빗 개별 수영장과 바베큐장을 갖춘 스위트 객실입니다.",
+          images: ["https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=80"],
+          features: { pool: true, bbq: true, garden: true }
+        },
+        "fallback-2": { 
+          id: "fallback-2", 
+          name: "2층 하늘(풀빌라)", 
+          type: "poolvilla", 
+          base_price: 380000, 
+          weekend_price: 480000, 
+          peak_price: 580000, 
+          max_guests: 4,
+          description: "탁 트인 숲 전경을 감상할 수 있는 럭셔리 객실입니다.",
+          images: ["https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=800&q=80"],
+          features: { pool: true, bbq: true, garden: false }
+        }
       });
       setReservations([
         { id: "res-1", room_id: "fallback-1", guest_name: "홍길동", guest_phone: "010-1234-5678", check_in_date: "2026-06-01", check_out_date: "2026-06-03", total_price: 900000, status: "confirmed", portone_imp_uid: "imp_demo_111", created_at: new Date().toISOString() },
